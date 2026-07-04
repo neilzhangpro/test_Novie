@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Novie - 智能协作，高效未来</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;color:#1a1a2e;background:#fff;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{border:none;outline:none;cursor:pointer;font-family:inherit}
+
+.section{padding:3.5rem 1.25rem}
+.container{max-width:420px;margin:0 auto}
+
+/* Hero */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:4rem 1.5rem 3rem;
+  background:linear-gradient(160deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
+  color:#fff;
+  overflow:hidden
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  width:300px;height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,241,0.35),transparent 70%);
+  top:-60px;right:-80px;
+  animation:float 6s ease-in-out infinite
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,0.3),transparent 70%);
+  bottom:40px;left:-60px;
+  animation:float 8s ease-in-out infinite reverse
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+}
+
+.hero-badge{
+  display:inline-block;
+  padding:0.35rem 1rem;
+  border-radius:50px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(10px);
+  font-size:0.8rem;
+  letter-spacing:0.5px;
+  margin-bottom:1.5rem;
+  border:1px solid rgba(255,255,255,0.15);
+  position:relative;z-index:1
+}
+
+.hero-logo{
+  width:72px;height:72px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  box-shadow:0 8px 32px rgba(99,102,241,0.4);
+  position:relative;z-index:1
+}
+.hero-logo svg{width:40px;height:40px}
+
+.hero h1{
+  font-size:2rem;
+  font-weight:800;
+  line-height:1.25;
+  margin-bottom:0.75rem;
+  position:relative;z-index:1
+}
+.hero h1 span{
+  background:linear-gradient(90deg,#a78bfa,#818cf8,#6ee7b7);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text
+}
+
+.hero-subtitle{
+  font-size:1rem;
+  opacity:0.8;
+  max-width:320px;
+  margin:0 auto 2rem;
+  line-height:1.7;
+  position:relative;z-index:1
+}
+
+.hero-cta{
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+  width:100%;
+  max-width:280px;
+  position:relative;z-index:1
+}
+
+.btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.5rem;
+  padding:0.875rem 1.5rem;
+  border-radius:12px;
+  font-size:1rem;
+  font-weight:600;
+  transition:transform 0.2s,box-shadow 0.2s
+}
+.btn:active{transform:scale(0.97)}
+
+.btn-primary{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+  box-shadow:0 4px 20px rgba(99,102,241,0.4)
+}
+
+.btn-secondary{
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.25);
+  backdrop-filter:blur(10px)
+}
+
+.btn svg{width:20px;height:20px;flex-shrink:0}
+
+.hero-trust{
+  margin-top:2rem;
+  font-size:0.75rem;
+  opacity:0.5;
+  position:relative;z-index:1
+}
+
+/* Stats */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0.5rem;
+  padding:2rem 1.25rem;
+  background:linear-gradient(180deg,#24243e,#1a1a2e);
+  color:#fff
+}
+.stat-item{text-align:center;padding:1rem 0.5rem}
+.stat-num{
+  font-size:1.75rem;
+  font-weight:800;
+  background:linear-gradient(135deg,#a78bfa,#6ee7b7);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text
+}
+.stat-label{font-size:0.75rem;opacity:0.6;margin-top:0.25rem}
+
+/* Features */
+.features{background:#f8f9fc}
+.features .section-label{
+  text-align:center;
+  font-size:0.8rem;
+  font-weight:600;
+  color:#6366f1;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:0.5rem
+}
+.features .section-title{
+  text-align:center;
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:2rem;
+  color:#1a1a2e
+}
+
+.feature-card{
+  background:#fff;
+  border-radius:16px;
+  padding:1.5rem;
+  margin-bottom:1rem;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  transition:transform 0.3s
+}
+.feature-card:last-child{margin-bottom:0}
+
+.feature-icon{
+  width:48px;height:48px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1rem
+}
+.feature-icon svg{width:24px;height:24px}
+
+.feature-icon.purple{background:rgba(99,102,241,0.1);color:#6366f1}
+.feature-icon.green{background:rgba(16,185,129,0.1);color:#10b981}
+.feature-icon.orange{background:rgba(245,158,11,0.1);color:#f59e0b}
+.feature-icon.pink{background:rgba(236,72,153,0.1);color:#ec4899}
+
+.feature-card h3{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
+.feature-card p{font-size:0.875rem;color:#64748b;line-height:1.6}
+
+/* How it works */
+.how-it-works{background:#fff}
+.how-it-works .section-label{
+  text-align:center;
+  font-size:0.8rem;
+  font-weight:600;
+  color:#6366f1;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:0.5rem
+}
+.how-it-works .section-title{
+  text-align:center;
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:2rem;
+  color:#1a1a2e
+}
+
+.step{
+  display:flex;
+  gap:1rem;
+  margin-bottom:1.5rem;
+  align-items:flex-start
+}
+.step:last-child{margin-bottom:0}
+
+.step-num{
+  width:36px;height:36px;min-width:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.875rem;
+  margin-top:2px
+}
+.step-content h4{font-size:1rem;font-weight:700;margin-bottom:0.25rem}
+.step-content p{font-size:0.875rem;color:#64748b;line-height:1.6}
+
+/* Testimonials */
+.testimonials{background:#f8f9fc}
+.testimonials .section-label{
+  text-align:center;
+  font-size:0.8rem;
+  font-weight:600;
+  color:#6366f1;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:0.5rem
+}
+.testimonials .section-title{
+  text-align:center;
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:2rem;
+  color:#1a1a2e
+}
+
+.testimonial-card{
+  background:#fff;
+  border-radius:16px;
+  padding:1.5rem;
+  margin-bottom:1rem;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06)
+}
+.testimonial-card:last-child{margin-bottom:0}
+
+.testimonial-stars{color:#f59e0b;font-size:0.875rem;margin-bottom:0.75rem;letter-spacing:2px}
+.testimonial-text{font-size:0.875rem;color:#475569;line-height:1.7;margin-bottom:1rem;font-style:italic}
+
+.testimonial-author{display:flex;align-items:center;gap:0.75rem}
+.testimonial-avatar{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#6366f1,#a78bfa);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:0.875rem
+}
+.testimonial-name{font-size:0.875rem;font-weight:600}
+.testimonial-role{font-size:0.75rem;color:#94a3b8}
+
+/* Contact form */
+.contact{
+  background:linear-gradient(160deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
+  color:#fff
+}
+.contact .section-label{
+  text-align:center;
+  font-size:0.8rem;
+  font-weight:600;
+  color:#a78bfa;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:0.5rem
+}
+.contact .section-title{
+  text-align:center;
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:0.5rem
+}
+.contact .section-desc{
+  text-align:center;
+  font-size:0.875rem;
+  opacity:0.7;
+  margin-bottom:2rem
+}
+
+.form-group{margin-bottom:1rem}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:0.875rem 1rem;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  font-size:0.9rem;
+  font-family:inherit;
+  transition:border-color 0.2s,background 0.2s;
+  -webkit-appearance:none;
+  appearance:none
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder{color:rgba(255,255,255,0.4)}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  outline:none;
+  border-color:rgba(99,102,241,0.6);
+  background:rgba(255,255,255,0.12)
+}
+.form-group select{color:rgba(255,255,255,0.7)}
+.form-group select option{background:#24243e;color:#fff}
+.form-group textarea{resize:vertical;min-height:80px}
+
+.form-submit{
+  width:100%;
+  padding:0.875rem;
+  border-radius:12px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+  font-size:1rem;
+  font-weight:600;
+  margin-top:0.5rem;
+  transition:transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 4px 20px rgba(99,102,241,0.4)
+}
+.form-submit:active{transform:scale(0.97)}
+.form-submit:disabled{opacity:0.6;cursor:not-allowed}
+
+.form-privacy{
+  text-align:center;
+  font-size:0.7rem;
+  opacity:0.4;
+  margin-top:1rem;
+  line-height:1.5
+}
+
+.form-success{
+  display:none;
+  text-align:center;
+  padding:2rem 0
+}
+.form-success.active{display:block}
+.form-success-icon{
+  width:64px;height:64px;
+  border-radius:50%;
+  background:rgba(110,231,183,0.15);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem
+}
+.form-success-icon svg{width:32px;height:32px;color:#6ee7b7}
+.form-success h3{font-size:1.25rem;margin-bottom:0.5rem}
+.form-success p{font-size:0.875rem;opacity:0.7}
+
+/* CTA banner */
+.cta-banner{
+  background:#fff;
+  text-align:center
+}
+.cta-banner .section-title{
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:0.75rem;
+  color:#1a1a2e
+}
+.cta-banner .section-desc{
+  font-size:0.875rem;
+  color:#64748b;
+  margin-bottom:1.5rem
+}
+.cta-banner .btn{max-width:280px;margin:0 auto}
+
+/* Footer */
+.footer{
+  background:#0f0c29;
+  color:rgba(255,255,255,0.5);
+  padding:2rem 1.25rem;
+  text-align:center;
+  font-size:0.75rem
+}
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:1.5rem;
+  margin-bottom:1rem;
+  flex-wrap:wrap
+}
+.footer-links a{
+  color:rgba(255,255,255,0.6);
+  font-size:0.8rem;
+  transition:color 0.2s
+}
+.footer-links a:active{color:#fff}
+.footer-copy{opacity:0.4}
+
+/* Scroll animations */
+.fade-up{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.6s ease,transform 0.6s ease
+}
+.fade-up.visible{
+  opacity:1;
+  transform:translateY(0)
+}
+
+/* Back to top */
+.back-to-top{
+  position:fixed;
+  bottom:1.5rem;right:1.5rem;
+  width:44px;height:44px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(99,102,241,0.4);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s,transform 0.3s;
+  z-index:50
+}
+.back-to-top.visible{opacity:1;pointer-events:auto}
+.back-to-top:active{transform:scale(0.9)}
+.back-to-top svg{width:20px;height:20px}
+
+/* Sticky download bar */
+.sticky-bar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  background:rgba(15,12,41,0.95);
+  backdrop-filter:blur(12px);
+  padding:0.75rem 1.25rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:100;
+  transform:translateY(100%);
+  transition:transform 0.3s ease;
+  border-top:1px solid rgba(255,255,255,0.08)
+}
+.sticky-bar.visible{transform:translateY(0)}
+.sticky-bar-text{color:#fff;font-size:0.8rem;font-weight:500}
+.sticky-bar-text span{display:block;font-size:0.7rem;opacity:0.5;margin-top:1px}
+.sticky-bar .btn{
+  padding:0.6rem 1.25rem;
+  font-size:0.85rem;
+  border-radius:10px
+}
+</style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero" id="hero">
+  <span class="hero-badge">全新升级 · 限时免费体验</span>
+
+  <div class="hero-logo">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4L34 12V28L20 36L6 28V12L20 4Z" fill="white" fill-opacity="0.9"/>
+      <path d="M20 12L27 16V24L20 28L13 24V16L20 12Z" fill="rgba(99,102,241,0.6)"/>
+    </svg>
+  </div>
+
+  <h1>智能协作<br><span>高效未来</span></h1>
+
+  <p class="hero-subtitle">
+    一站式智能工作平台，助力团队协作效率提升 300%。从任务管理到数据洞察，一切尽在掌握。
+  </p>
+
+  <div class="hero-cta">
+    <a href="#download" class="btn btn-primary" id="cta-download">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 12.586V2a1 1 0 011-1z"/></svg>
+      免费下载 App
+    </a>
+    <a href="#contact" class="btn btn-secondary">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+      预约演示
+    </a>
+  </div>
+
+  <p class="hero-trust">已获 10,000+ 企业用户信赖</p>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-item fade-up">
+    <div class="stat-num">10K+</div>
+    <div class="stat-label">企业用户</div>
+  </div>
+  <div class="stat-item fade-up">
+    <div class="stat-num">300%</div>
+    <div class="stat-label">效率提升</div>
+  </div>
+  <div class="stat-item fade-up">
+    <div class="stat-num">99.9%</div>
+    <div class="stat-label">服务可用</div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="section features" id="features">
+  <div class="container">
+    <p class="section-label fade-up">核心功能</p>
+    <h2 class="section-title fade-up">为什么选择 Novie</h2>
+
+    <div class="feature-card fade-up">
+      <div class="feature-icon purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <h3>智能任务管理</h3>
+      <p>AI 驱动的任务分配与优先级排序，自动追踪进度，让团队永远聚焦最重要的事。</p>
+    </div>
+
+    <div class="feature-card fade-up">
+      <div class="feature-icon green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>实时协作空间</h3>
+      <p>多人实时编辑、评论、标注，打破信息孤岛，沟通零延迟，决策更高效。</p>
+    </div>
+
+    <div class="feature-card fade-up">
+      <div class="feature-icon orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h3>数据智能分析</h3>
+      <p>自动生成可视化报表，深度洞察团队表现与项目瓶颈，让数据驱动每一个决策。</p>
+    </div>
+
+    <div class="feature-card fade-up">
+      <div class="feature-icon pink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h3>企业级安全</h3>
+      <p>端到端加密、SOC 2 认证、细粒度权限管控，为您的数据安全保驾护航。</p>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section how-it-works">
+  <div class="container">
+    <p class="section-label fade-up">快速上手</p>
+    <h2 class="section-title fade-up">三步开启高效协作</h2>
+
+    <div class="step fade-up">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>下载注册</h4>
+        <p>扫码下载或点击按钮，30 秒完成注册，支持手机号、微信一键登录。</p>
+      </div>
+    </div>
+
+    <div class="step fade-up">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>创建团队</h4>
+        <p>邀请成员加入，一键导入现有项目数据，无缝衔接您的工作流。</p>
+      </div>
+    </div>
+
+    <div class="step fade-up">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>高效协作</h4>
+        <p>开始使用智能任务看板、实时文档协作和数据大盘，效率即刻起飞。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonials">
+  <div class="container">
+    <p class="section-label fade-up">用户口碑</p>
+    <h2 class="section-title fade-up">他们都在用 Novie</h2>
+
+    <div class="testimonial-card fade-up">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testimonial-text">"使用 Novie 后，我们团队的项目交付周期缩短了 40%，跨部门沟通成本大幅降低。"</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">张</div>
+        <div>
+          <div class="testimonial-name">张明</div>
+          <div class="testimonial-role">某科技公司 · 产品总监</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card fade-up">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testimonial-text">"数据分析功能太强大了，以前需要一整天整理的报表，现在一键自动生成。"</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">李</div>
+        <div>
+          <div class="testimonial-name">李芳</div>
+          <div class="testimonial-role">某电商平台 · 运营经理</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card fade-up">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="testimonial-text">"安全合规是我们最看重的，Novie 的企业级安全方案让 IT 部门非常放心。"</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">王</div>
+        <div>
+          <div class="testimonial-name">王建</div>
+          <div class="testimonial-role">某金融机构 · CTO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact / Lead Form -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <p class="section-label fade-up">联系我们</p>
+    <h2 class="section-title fade-up">预约专属演示</h2>
+    <p class="section-desc fade-up">留下您的信息，我们的产品顾问将在 24 小时内联系您</p>
+
+    <form id="lead-form" class="fade-up" novalidate>
+      <div class="form-group">
+        <input type="text" name="name" placeholder="您的姓名" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <input type="tel" name="phone" placeholder="手机号码" required autocomplete="tel" pattern="^1[3-9]\d{9}$">
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="工作邮箱（选填）" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <input type="text" name="company" placeholder="公司名称" autocomplete="organization">
+      </div>
+      <div class="form-group">
+        <select name="size">
+          <option value="" disabled selected>团队规模</option>
+          <option value="1-10">1-10 人</option>
+          <option value="11-50">11-50 人</option>
+          <option value="51-200">51-200 人</option>
+          <option value="201-500">201-500 人</option>
+          <option value="500+">500 人以上</option>
+        </select>
+      </div>
+      <button type="submit" class="form-submit" id="submit-btn">提交预约</button>
+      <p class="form-privacy">提交即表示同意我们的《隐私政策》和《服务条款》</p>
+    </form>
+
+    <div class="form-success" id="form-success">
+      <div class="form-success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3>提交成功！</h3>
+      <p>我们的产品顾问将尽快与您联系</p>
+    </div>
+  </div>
+</section>
+
+<!-- Download CTA -->
+<section class="section cta-banner" id="download">
+  <div class="container">
+    <h2 class="section-title fade-up">立即开启智能协作之旅</h2>
+    <p class="section-desc fade-up">免费下载，即刻体验全部核心功能</p>
+    <div class="fade-up" style="display:flex;flex-direction:column;gap:0.75rem;align-items:center">
+      <a href="javascript:void(0)" class="btn btn-primary" id="cta-download-bottom"
+         onclick="handleDownload()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 12.586V2a1 1 0 011-1z"/></svg>
+        免费下载 App
+      </a>
+      <a href="#contact" class="btn btn-secondary" style="border-color:rgba(99,102,241,0.3);color:#6366f1">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+        预约演示
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="javascript:void(0)">关于我们</a>
+    <a href="javascript:void(0)">帮助中心</a>
+    <a href="javascript:void(0)">隐私政策</a>
+    <a href="javascript:void(0)">服务条款</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Novie. All rights reserved.</p>
+</footer>
+
+<!-- Sticky Download Bar -->
+<div class="sticky-bar" id="sticky-bar">
+  <div class="sticky-bar-text">
+    Novie 智能协作
+    <span>免费下载 · 立即体验</span>
+  </div>
+  <a href="javascript:void(0)" class="btn btn-primary" onclick="handleDownload()">
+    立即下载
+  </a>
+</div>
+
+<!-- Back to Top -->
+<a href="#hero" class="back-to-top" id="back-to-top">
+  <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+</a>
+
+<script>
+(function() {
+  "use strict";
+
+  // Scroll-based animations
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll(".fade-up").forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Sticky bar and back-to-top visibility
+  var stickyBar = document.getElementById("sticky-bar");
+  var backToTop = document.getElementById("back-to-top");
+  var hero = document.getElementById("hero");
+
+  var stickyObserver = new IntersectionObserver(function(entries) {
+    var heroVisible = entries[0].isIntersecting;
+    stickyBar.classList.toggle("visible", !heroVisible);
+    backToTop.classList.toggle("visible", !heroVisible);
+  }, { threshold: 0 });
+
+  stickyObserver.observe(hero);
+
+  // Lead capture form
+  var form = document.getElementById("lead-form");
+  var formSuccess = document.getElementById("form-success");
+  var submitBtn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    var name = form.elements.name.value.trim();
+    var phone = form.elements.phone.value.trim();
+
+    if (!name) {
+      shakeField(form.elements.name);
+      return;
+    }
+    if (!/^1[3-9]\d{9}$/.test(phone)) {
+      shakeField(form.elements.phone);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "提交中...";
+
+    var data = {
+      name: name,
+      phone: phone,
+      email: form.elements.email.value.trim(),
+      company: form.elements.company.value.trim(),
+      size: form.elements.size.value,
+      timestamp: new Date().toISOString(),
+      source: "mobile_landing_page"
+    };
+
+    // Store locally as a static fallback
+    try {
+      var leads = JSON.parse(localStorage.getItem("novie_leads") || "[]");
+      leads.push(data);
+      localStorage.setItem("novie_leads", JSON.stringify(leads));
+    } catch(err) { /* localStorage unavailable */ }
+
+    setTimeout(function() {
+      form.style.display = "none";
+      formSuccess.classList.add("active");
+    }, 800);
+  });
+
+  function shakeField(el) {
+    el.style.borderColor = "#ef4444";
+    el.style.animation = "shake 0.4s ease";
+    el.focus();
+    setTimeout(function() {
+      el.style.borderColor = "";
+      el.style.animation = "";
+    }, 600);
+  }
+
+  // Add shake animation dynamically
+  var shakeStyle = document.createElement("style");
+  shakeStyle.textContent = "@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}";
+  document.head.appendChild(shakeStyle);
+})();
+
+function handleDownload() {
+  var ua = navigator.userAgent;
+  if (/android/i.test(ua)) {
+    window.location.href = "javascript:void(0)";
+    alert("即将跳转至应用商店下载");
+  } else if (/iphone|ipad|ipod/i.test(ua)) {
+    window.location.href = "javascript:void(0)";
+    alert("即将跳转至 App Store 下载");
+  } else {
+    alert("请使用手机浏览器扫码下载");
+  }
+}
+</script>
+
+</body>
+</html>
