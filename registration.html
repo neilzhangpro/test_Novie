@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>活动报名</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  padding: 20px 16px 40px;
+}
+
+.page.active {
+  display: block;
+}
+
+.banner {
+  text-align: center;
+  padding: 32px 16px 24px;
+}
+
+.banner h1 {
+  font-size: 28px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.banner p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin: 0 auto;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.card h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group label .required {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #667eea;
+  background: #fff;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.form-group .error-msg {
+  display: none;
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: #e74c3c;
+}
+
+.form-group.has-error .error-msg {
+  display: block;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.2s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.agreement {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.5;
+}
+
+.agreement input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.agreement a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-overlay.active {
+  display: flex;
+}
+
+.loading-spinner {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 40px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #eee;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Success page */
+.success-content {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 4px 20px rgba(86, 171, 47, 0.3);
+}
+
+.success-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: #fff;
+  stroke-width: 3;
+  fill: none;
+}
+
+.success-content h2 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.success-content p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.success-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  text-align: left;
+}
+
+.success-card h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row .info-label {
+  color: #888;
+  flex-shrink: 0;
+}
+
+.info-row .info-value {
+  color: #333;
+  text-align: right;
+  word-break: break-all;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 40px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #667eea;
+  background: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-btn:active {
+  transform: scale(0.97);
+}
+
+.footer-text {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+</style>
+</head>
+<body>
+
+<!-- Registration Form Page -->
+<div class="page active" id="page-form">
+  <div class="banner">
+    <h1>限时活动报名</h1>
+    <p>填写以下信息完成报名，名额有限先到先得</p>
+  </div>
+
+  <div class="card">
+    <h2>报名信息</h2>
+    <form id="reg-form" novalidate>
+      <div class="form-group" data-field="name">
+        <label>姓名<span class="required">*</span></label>
+        <input type="text" id="field-name" placeholder="请输入您的姓名" maxlength="20" autocomplete="name">
+        <div class="error-msg">请输入姓名</div>
+      </div>
+
+      <div class="form-group" data-field="phone">
+        <label>手机号<span class="required">*</span></label>
+        <input type="tel" id="field-phone" placeholder="请输入手机号" maxlength="11" autocomplete="tel">
+        <div class="error-msg">请输入有效的11位手机号</div>
+      </div>
+
+      <div class="form-group" data-field="email">
+        <label>邮箱</label>
+        <input type="email" id="field-email" placeholder="请输入邮箱（选填）" autocomplete="email">
+        <div class="error-msg">请输入有效的邮箱地址</div>
+      </div>
+
+      <div class="form-group" data-field="company">
+        <label>公司/单位<span class="required">*</span></label>
+        <input type="text" id="field-company" placeholder="请输入公司或单位名称" maxlength="50" autocomplete="organization">
+        <div class="error-msg">请输入公司或单位名称</div>
+      </div>
+
+      <div class="form-group" data-field="role">
+        <label>职位</label>
+        <select id="field-role">
+          <option value="">请选择职位（选填）</option>
+          <option value="管理层">管理层</option>
+          <option value="技术">技术</option>
+          <option value="产品">产品</option>
+          <option value="运营">运营</option>
+          <option value="市场">市场</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+
+      <div class="form-group" data-field="remark">
+        <label>备注</label>
+        <textarea id="field-remark" placeholder="如有特殊需求请备注（选填）" maxlength="200"></textarea>
+      </div>
+
+      <div class="agreement">
+        <input type="checkbox" id="field-agree">
+        <span>我已阅读并同意<a href="javascript:void(0)">《活动报名须知》</a>及<a href="javascript:void(0)">《隐私协议》</a></span>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn" disabled>立即报名</button>
+    </form>
+  </div>
+
+  <div class="footer-text">主办方保留活动最终解释权</div>
+</div>
+
+<!-- Success Page -->
+<div class="page" id="page-success">
+  <div class="success-content">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <h2>报名成功</h2>
+    <p>您的报名信息已提交成功<br>我们会通过手机短信通知您活动详情</p>
+
+    <div class="success-card">
+      <h3>报名详情</h3>
+      <div class="info-row">
+        <span class="info-label">姓名</span>
+        <span class="info-value" id="confirm-name"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">手机号</span>
+        <span class="info-value" id="confirm-phone"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">邮箱</span>
+        <span class="info-value" id="confirm-email"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">公司/单位</span>
+        <span class="info-value" id="confirm-company"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">职位</span>
+        <span class="info-value" id="confirm-role"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">报名时间</span>
+        <span class="info-value" id="confirm-time"></span>
+      </div>
+    </div>
+
+    <button class="back-btn" id="back-btn">返回首页</button>
+  </div>
+
+  <div class="footer-text">主办方保留活动最终解释权</div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loading">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>正在提交报名信息…</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var form = document.getElementById("reg-form");
+  var submitBtn = document.getElementById("submit-btn");
+  var agreeCheckbox = document.getElementById("field-agree");
+  var loadingEl = document.getElementById("loading");
+  var pageForm = document.getElementById("page-form");
+  var pageSuccess = document.getElementById("page-success");
+
+  var fields = {
+    name:    { el: document.getElementById("field-name"),    required: true },
+    phone:   { el: document.getElementById("field-phone"),   required: true },
+    email:   { el: document.getElementById("field-email"),   required: false },
+    company: { el: document.getElementById("field-company"), required: true },
+    role:    { el: document.getElementById("field-role"),    required: false },
+    remark:  { el: document.getElementById("field-remark"),  required: false }
+  };
+
+  function sanitize(str) {
+    var div = document.createElement("div");
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  function validateField(name) {
+    var field = fields[name];
+    var value = field.el.value.trim();
+    var group = field.el.closest(".form-group");
+    var valid = true;
+
+    if (name === "name") {
+      valid = value.length >= 1 && value.length <= 20;
+    } else if (name === "phone") {
+      valid = /^1[3-9]\d{9}$/.test(value);
+    } else if (name === "email") {
+      if (value.length > 0) {
+        valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      }
+    } else if (name === "company") {
+      valid = value.length >= 1 && value.length <= 50;
+    }
+
+    if (valid) {
+      group.classList.remove("has-error");
+    } else {
+      group.classList.add("has-error");
+    }
+    return valid;
+  }
+
+  function validateAll() {
+    var allValid = true;
+    var fieldNames = Object.keys(fields);
+    for (var i = 0; i < fieldNames.length; i++) {
+      var name = fieldNames[i];
+      if (fields[name].required || fields[name].el.value.trim().length > 0) {
+        if (!validateField(name)) {
+          allValid = false;
+        }
+      }
+    }
+    return allValid;
+  }
+
+  agreeCheckbox.addEventListener("change", function () {
+    submitBtn.disabled = !agreeCheckbox.checked;
+  });
+
+  var fieldNames = Object.keys(fields);
+  for (var i = 0; i < fieldNames.length; i++) {
+    (function (name) {
+      fields[name].el.addEventListener("blur", function () {
+        if (fields[name].required || fields[name].el.value.trim().length > 0) {
+          validateField(name);
+        }
+      });
+    })(fieldNames[i]);
+  }
+
+  function showPage(page) {
+    pageForm.classList.remove("active");
+    pageSuccess.classList.remove("active");
+    page.classList.add("active");
+    window.scrollTo(0, 0);
+  }
+
+  function formatDateTime(date) {
+    var y = date.getFullYear();
+    var m = String(date.getMonth() + 1).padStart(2, "0");
+    var d = String(date.getDate()).padStart(2, "0");
+    var h = String(date.getHours()).padStart(2, "0");
+    var min = String(date.getMinutes()).padStart(2, "0");
+    return y + "-" + m + "-" + d + " " + h + ":" + min;
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!agreeCheckbox.checked) return;
+    if (!validateAll()) return;
+
+    submitBtn.disabled = true;
+    loadingEl.classList.add("active");
+
+    var formData = {
+      name: fields.name.el.value.trim(),
+      phone: fields.phone.el.value.trim(),
+      email: fields.email.el.value.trim(),
+      company: fields.company.el.value.trim(),
+      role: fields.role.el.value,
+      remark: fields.remark.el.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+
+    setTimeout(function () {
+      loadingEl.classList.remove("active");
+
+      document.getElementById("confirm-name").textContent = formData.name;
+      document.getElementById("confirm-phone").textContent =
+        formData.phone.substring(0, 3) + "****" + formData.phone.substring(7);
+      document.getElementById("confirm-email").textContent = formData.email || "-";
+      document.getElementById("confirm-company").textContent = formData.company;
+      document.getElementById("confirm-role").textContent = formData.role || "-";
+      document.getElementById("confirm-time").textContent = formatDateTime(new Date(formData.submittedAt));
+
+      showPage(pageSuccess);
+    }, 1500);
+  }
+
+  form.addEventListener("submit", handleSubmit);
+
+  document.getElementById("back-btn").addEventListener("click", function () {
+    form.reset();
+    agreeCheckbox.checked = false;
+    submitBtn.disabled = true;
+    var groups = form.querySelectorAll(".form-group");
+    for (var i = 0; i < groups.length; i++) {
+      groups[i].classList.remove("has-error");
+    }
+    showPage(pageForm);
+  });
+})();
+</script>
+</body>
+</html>
